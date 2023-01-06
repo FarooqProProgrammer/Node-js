@@ -1,11 +1,25 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Modal } from 'antd';
+import { Input } from 'antd';
+import Button from 'react-bootstrap/Button';
 import "./index.css";
 
 function Navbar() {
   const [click, setClick] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [Credential,setCredential] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const handleClick = () => setClick(!click);
+
   return (
     <>
       <nav className="navbar">
@@ -65,8 +79,37 @@ function Navbar() {
             <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
           </div>
 
-          <button className="w-[100px] h-[49px] border-2 border-[#ffdd40] text-[#ffdd40] hover:decoration-[#ffdd40] hover:border-black hover:text-black">Login</button>
+          <button onClick={showModal} className="w-[100px] h-[49px] border-2 border-[#ffdd40] text-[#ffdd40] hover:decoration-[#ffdd40] hover:border-black hover:text-black">Login</button>
         </div>
+
+
+        <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <div className="w-full h-[400px] border-2 border-black">
+          <div className="BTN-GROUP flex">
+              <button className="w-[50%] bg-[#3498db] text-white" onClick={()=> setCredential(false)}>LOGIN</button>
+              <button className="w-[50%] bg-[#3498db] text-white" onClick={()=> setCredential(true)}>SIGNUP</button>
+          </div>
+          <div className="w-full h-[348px] border-2 border-black flex flex-col justify-around items-center">
+
+            {Credential === false ?
+              <>
+              <Input placeholder="Enter Email" className="w-[80%] h-[50px] " />
+              <Input placeholder="Enter Password" className="w-[80%] h-[50px] " />
+              <Button variant="secondary">Login</Button>  
+              </>
+              :
+              <>
+              <Input placeholder="Enter User Name" className="w-[80%] h-[50px]"/>
+              <Input placeholder="Enter Email" className="w-[80%] h-[50px] " />
+              <Input placeholder="Enter Password" className="w-[80%] h-[50px] " />
+              <Button variant="secondary">Signup</Button>  
+              </>
+              
+            }
+          </div>
+
+          </div>
+        </Modal>
       </nav>
     </>
   );
