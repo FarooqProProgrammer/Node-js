@@ -64,6 +64,8 @@ function Navbar() {
           <div className="nav-icon" onClick={handleClick}>
             <i className={click ? "fas fa-times" : "fas fa-bars"}></i>
           </div>
+
+          <button className="w-[100px] h-[49px] border-2 border-[#ffdd40] text-[#ffdd40] hover:decoration-[#ffdd40] hover:border-black hover:text-black">Login</button>
         </div>
       </nav>
     </>
