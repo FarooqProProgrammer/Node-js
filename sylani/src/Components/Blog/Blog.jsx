@@ -1,14 +1,27 @@
-import React from 'react'
+import React,{useState}from 'react'
 import { useNavigate } from 'react-router-dom'
+import Button from '../../Re-useable Component/Button';
+import {  Modal } from 'antd';
+
 function Blog() {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   return (
   <section class="text-gray-600 body-font">
   <div class="container px-5 py-24 mx-auto">
     <div className="bar w-full h-[80px] flex justify-around items-center" >
       <h1 class="text-3xl font-medium title-font text-gray-900 mb-12 text-center">Current Courses</h1>
-      <button  class="text-3xl font-medium title-font text-gray-900 mb-12 text-center border-2 border-[#f1c40f] py-3 pb-2 pt-2 pl-3 pr-3 hover:text-[#f1c40f] hover:bg-[#000] ">Add New Course</button>
+      <Button  onClick={showModal} className="text-3xl font-medium title-font text-gray-900 mb-12 text-center border-2 border-[#f1c40f] py-3 pb-2 pt-2 pl-3 pr-3 hover:text-[#f1c40f] hover:bg-[#000] ">Add New Course</Button>
     </div>
     <div class="flex flex-wrap -m-4">
       <div class="p-4 md:w-1/2 w-full" onClick={()=> navigate("/Course/PYTHON")}>
@@ -56,6 +69,13 @@ function Blog() {
       </div>
     </div>
   </div>
+
+      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <div className="content w-full h-[300px] border-2 border-black flex flex-col justify-around items-center">
+            <input className='w-[80%] h-[60px] border-2 border-black'/>
+            <Button className="border-2 border-[#f1c40f] font-black hover:text-[#f1c40f] hover:border-[#000] hover:shadow-lg" width={"300px"} height={"60px"}>ADD COURSE</Button>
+        </div>  
+      </Modal>
 </section>
   )
 }
