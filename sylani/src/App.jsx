@@ -4,6 +4,7 @@ import Home from "./pages/Home"
 import Donations from './pages/Donations'
 import Education from './pages/Education'
 import Service from './pages/Service'
+import Course from './pages/Course'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path='/Donations' element={<Donations/>}/>
         <Route path='/Service' element={<Service/>}/>
         <Route path='/Education' element={<Education/>}/>
+        <Route path='/Course/:id' element={<Course/>}/>
         
       </Routes>
     </BrowserRouter>

@@ -4,11 +4,22 @@ import { Modal } from 'antd';
 import { Input } from 'antd';
 import Button from 'react-bootstrap/Button';
 import "./index.css";
+import app from "../config/FB"
+import {getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+// import {getFirestore,addDoc,collection} from "firebase/firestore";
 
 function Navbar() {
+  const auth = getAuth(app);
+  // const db = getFirestore(app);
   const [click, setClick] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [Credential,setCredential] = useState(false);
+  const [userName,setUserName] = useState(null);
+  const [Password,setPassword] = useState(null);
+  const [Email,setEmail] = useState(null);
+
+
+  
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -19,6 +30,30 @@ function Navbar() {
     setIsModalOpen(false);
   };
   const handleClick = () => setClick(!click);
+
+  const createUser = () => {
+    createUserWithEmailAndPassword(auth, Email, Password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user)
+    // Add(Email,userName)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
+  }
+
+  // const Add = async (Email,userName) =>{
+  //   const docRef = await addDoc(collection(db, "Users"), {
+  //     Email:Email,
+  //     Name:userName
+  //   });
+  //   console.log("Document written with ID: ", docRef.id);
+  // }
 
   return (
     <>
@@ -93,16 +128,16 @@ function Navbar() {
 
             {Credential === false ?
               <>
-              <Input placeholder="Enter Email" className="w-[80%] h-[50px] " />
-              <Input placeholder="Enter Password" className="w-[80%] h-[50px] " />
+              <Input onChange={(e)=> setEmail(e.target.value)} placeholder="Enter Email" className="w-[80%] h-[50px] " />
+              <Input onChange={(e)=> setPassword(e.target.value)} placeholder="Enter Password" className="w-[80%] h-[50px] " />
               <Button variant="secondary">Login</Button>  
               </>
               :
               <>
-              <Input placeholder="Enter User Name" className="w-[80%] h-[50px]"/>
-              <Input placeholder="Enter Email" className="w-[80%] h-[50px] " />
-              <Input placeholder="Enter Password" className="w-[80%] h-[50px] " />
-              <Button variant="secondary">Signup</Button>  
+                <Input onChange={(e)=> setUserName(e.target.value)} placeholder="Enter User Name" className="w-[80%] h-[50px]"/>
+                <Input onChange={(e)=> setEmail(e.target.value)} placeholder="Enter Email" className="w-[80%] h-[50px] " />
+                <Input onChange={(e)=> setPassword(e.target.value)} placeholder="Enter Password" className="w-[80%] h-[50px] " />
+              <Button variant="secondary" onClick={createUser}>Signup</Button>  
               </>
               
             }
