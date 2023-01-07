@@ -2,9 +2,12 @@ import React,{useState}from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from '../../Re-useable Component/Button';
 import {  Modal } from 'antd';
-
+import app from '../config/FB';
+import {getFirestore, addDoc ,collection } from "firebase/firestore"
 function Blog() {
   const navigate = useNavigate();
+  const db = getFirestore(app);
+  const [course,setCourse] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -16,6 +19,14 @@ function Blog() {
     setIsModalOpen(false);
   };
 
+  const add = async() =>{
+    // Add a new document with a generated id.
+  const docRef = await addDoc(collection(db, "Course"), {
+    course:course
+  });
+  console.log("Document written with ID: ", docRef.id);
+
+  }
   return (
   <section class="text-gray-600 body-font">
   <div class="container px-5 py-24 mx-auto">
@@ -72,8 +83,8 @@ function Blog() {
 
       <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div className="content w-full h-[300px] border-2 border-black flex flex-col justify-around items-center">
-            <input className='w-[80%] h-[60px] border-2 border-black'/>
-            <Button className="border-2 border-[#f1c40f] font-black hover:text-[#f1c40f] hover:border-[#000] hover:shadow-lg" width={"300px"} height={"60px"}>ADD COURSE</Button>
+            <input onChange={(e)=> setCourse(e.target.value)} className='w-[80%] h-[60px] border-2 border-black'/>
+            <Button onClick={add} className="border-2 border-[#f1c40f] font-black hover:text-[#f1c40f] hover:border-[#000] hover:shadow-lg" width={"300px"} height={"60px"}>ADD COURSE</Button>
         </div>  
       </Modal>
 </section>
